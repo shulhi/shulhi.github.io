@@ -139,9 +139,6 @@ a:hover {
 article {
   background: #fff;
 }
-article.page {
-  padding-left: 20px;
-}
 article.page .icon {
   display: none;
 }
@@ -483,10 +480,7 @@ article footer .addthis iframe {
   margin-top: 0;
 }
 #comment {
-  padding: 20px;
   background: #fff;
-  -webkit-box-shadow: 1px 2px 3px #ddd;
-  box-shadow: 1px 2px 3px #ddd;
   margin-bottom: 50px;
 }
 #comment .title {
