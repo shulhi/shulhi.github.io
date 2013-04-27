@@ -56,7 +56,7 @@
     <header>
       
   
-    <h1 class="title"><a href="/2013/04/27/restsharp-oauth-2.0/">RestSharp Oauth 2.0</a></h1>
+    <h1 class="title">RestSharp Oauth 2.0</h1>
   
 
       
@@ -68,17 +68,50 @@
     <div class="entry">
       
         <p>My Forex News app (WP8) has been released. Yeay for that! Currently working on my next app. In the meantime, I am in the process of creating an API wrapper for Pocket/Read It Later for C#. Initially I implemented all the Oauth 2.0 manually using WebClient class, but figured out that was the easy part. As I need to GET data (Json) thru data, then I would need to implement Json serializer/deserializer. My initial thought is to use Newton Json, but then it would make more sense if I just leverage on RestSharp. Then I do not need to implement the Oauth process (although I have coded mine, going to scrap those) and let it manage the serialization/deserialization.</p>
+<a name="more"></a>
+
+<p>The lack of documentation of RestSharp is really annoying. I couldn’t find anything related to Oauth 2.0 implementation. But after trial and error these below code should work to get the request_token. And the rest of the process should be pretty trivial.</p>
+<pre><code>private const string BaseUri = <span class="string">"https://getpocket.com"</span><span class="comment">;</span>
+private const string ConsumerKey = <span class="string">"your-consumer-key-from-Pocket"</span><span class="comment">;</span>
+
+private void Login_OnClick(object sender, RoutedEventArgs e)
+{
+    var client = new RestClient(BaseUri)<span class="comment">;</span>
+    // Although the API specifies /v3/oauth/request, it gives <span class="keyword">out</span> <span class="number">406</span> Error if no <span class="preprocessor">.php</span> extension
+    // Request thru Fiddler works fine without the extension
+    var request = new RestRequest(<span class="string">"/v3/oauth/request.php"</span>, Method<span class="preprocessor">.POST</span>)<span class="comment">;</span>
+
+    // Option <span class="number">1</span>: Use the SimpleAuthenticator
+    client<span class="preprocessor">.Authenticator</span> = new SimpleAuthenticator(<span class="string">"consumer_key"</span>, ConsumerKey, <span class="string">"redirect_uri"</span>, <span class="string">"http://www.google.com"</span>)<span class="comment">;</span>
+
+    // Option <span class="number">2</span>: Use the application/json
+    // This is the most flexible option. Mostly useful to POST data to server
+    request<span class="preprocessor">.AddHeader</span>(<span class="string">"Host"</span>, <span class="string">"getpocket.com"</span>)<span class="comment">;</span>
+    request<span class="preprocessor">.AddHeader</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/json; charset=UTF-8"</span>)<span class="comment">;</span>
+    request<span class="preprocessor">.AddHeader</span>(<span class="string">"X-Accept"</span>, <span class="string">"application/json"</span>)<span class="comment">;</span>
+    request<span class="preprocessor">.RequestFormat</span> = DataFormat<span class="preprocessor">.Json</span><span class="comment">;</span>
+    var jsonObj = new { consumer_key = ConsumerKey, redirect_uri = <span class="string">"http://www.google.com"</span> }<span class="comment">;</span>
+    request<span class="preprocessor">.AddBody</span>(jsonObj)<span class="comment">;</span>
+
+    // Option <span class="number">3</span>: Use application/<span class="built_in">x</span>-www-url-encoded
+    request<span class="preprocessor">.AddHeader</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>)<span class="comment">;</span>
+    request<span class="preprocessor">.AddParameter</span>(<span class="string">"consumer_key"</span>, ConsumerKey)<span class="comment">;</span>
+    request<span class="preprocessor">.AddParameter</span>(<span class="string">"redirect_uri"</span>, <span class="string">"http://www.google.com"</span>)<span class="comment">;</span>
+
+    client<span class="preprocessor">.ExecuteAsync</span>(request, response =&gt; Response<span class="preprocessor">.Text</span> = response<span class="preprocessor">.ContentType</span> + <span class="string">" "</span> + response<span class="preprocessor">.Content</span>)<span class="comment">;</span>
+}
+</code></pre>
+<p>So just pick and choose whatever option you want to use. I would prefer Option 2 and 3. Option 1 is very simplistic but good enough to do the initial authentication process and the rest should be done by Option 2 and 3.</p>
 
       
     </div>
     <footer>
       
-        
-      
       <div class="clearfix"></div>
     </footer>
   </div>
 </article>
+<!-- hackish -->
 
   
 <section id="comment">
