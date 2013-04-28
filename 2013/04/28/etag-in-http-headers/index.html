@@ -68,7 +68,7 @@
     <div class="entry">
       
         <p>One of the thing that I learned while making my app is how to optimize call to the webservice returning XML (RSS feed and the like). There is one cool feature called <a href="http://en.wikipedia.org/wiki/HTTP_ETag">ETag</a>.</p>
-<!-- readmore -->
+<a name="more"></a>
 
 <p>Sometimes you need to know whether the RSS feed has changed, so you can make a request to pull new info. How to know without exactly requesting the XML itself. </p>
 <p>It is very simple actually, just send HTTP request for the headers only and take note of the ETag. Then compare if the previous ETag matched with the new ETag, if it matches, then the resource doesn&#39;t change.</p>

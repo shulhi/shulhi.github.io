@@ -73,27 +73,6 @@
     <div class="entry">
       
         <p>One of the thing that I learned while making my app is how to optimize call to the webservice returning XML (RSS feed and the like). There is one cool feature called <a href="http://en.wikipedia.org/wiki/HTTP_ETag">ETag</a>.</p>
-<!-- readmore -->
-
-<p>Sometimes you need to know whether the RSS feed has changed, so you can make a request to pull new info. How to know without exactly requesting the XML itself. </p>
-<p>It is very simple actually, just send HTTP request for the headers only and take note of the ETag. Then compare if the previous ETag matched with the new ETag, if it matches, then the resource doesn&#39;t change.</p>
-<p>Here is the code in C#.</p>
-<pre><code><span class="keyword">static</span> <span class="keyword">void</span> Main(string[] args)
-{
-    WebRequest webRequest = HttpWebRequest<span class="variable">.Create</span>(<span class="string">"http://www.forexfactory.com/ffcal_week_this.xml"</span>);
-
-    <span class="comment">// Only request the headers, not the whole content</span>
-    webRequest<span class="variable">.Method</span> = <span class="string">"HEAD"</span>;
-    var response = webRequest<span class="variable">.GetResponse</span>();
-
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; response<span class="variable">.Headers</span><span class="variable">.Count</span>; i++)
-    {
-        Console<span class="variable">.WriteLine</span>(response<span class="variable">.Headers</span><span class="variable">.Keys</span>[i] + <span class="string">" : "</span> + response<span class="variable">.Headers</span>[i]);
-    }
-
-    Console<span class="variable">.Read</span>();
-}
-</code></pre>
 
       
     </div>
