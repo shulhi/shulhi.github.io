@@ -107,7 +107,7 @@ a:hover {
   margin-left: auto;
   margin-right: auto;
   width: 900px;
-  max-width: 90%;
+  max-width: 100%;
 }
 #header a color ##58fb8,
 #header a:hover {
@@ -128,6 +128,7 @@ a:hover {
 #header #main-nav {
   font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
   line-height: 2.5em;
+  float: right;
 }
 #header #main-nav ul {
   list-style: none;
@@ -135,6 +136,12 @@ a:hover {
 #header #main-nav ul li {
   float: left;
   margin-left: 30px;
+}
+@media screen and (max-width: 600px) {
+  #header #main-nav {
+    float: left;
+    margin-left: -30px;
+  }
 }
 article {
   background: #fff;
@@ -160,11 +167,6 @@ article.link .title a:after {
 }
 article .post-content {
   position: relative;
-}
-@media screen and (max-width: 600px) {
-  article .post-content {
-    padding-left: 20px;
-  }
 }
 article .gallery {
   overflow: hidden;
@@ -317,6 +319,12 @@ article .entry blockquote footer cite:before {
 article .entry code,
 article .entry pre {
   font-family: Monaco, Menlo, Consolas, Courier New, monospace;
+}
+@media screen and (max-width: 600px) {
+  article .entry code,
+  article .entry pre {
+    word-break: break-word;
+  }
 }
 article .entry code {
   background: #eee;
@@ -491,7 +499,7 @@ article footer .addthis iframe {
   margin-left: auto;
   margin-right: auto;
   width: 900px;
-  max-width: 90%;
+  max-width: 100%;
 }
 #pagination a {
   display: block;
