@@ -77,30 +77,7 @@
 <p><a name="more"></a></p>
 <h3>First solution</h3>
 <p>First solution is pretty straight forward although I have to admit my code is ugly as hell. I just coded a quick solution.</p>
-<figure class="highlight lang-c#"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-</pre></td><td class="code"><pre>static void CalculateWithoutAlgo(string[] inputs)
+<pre><code><figure class="highlight"><pre>static void CalculateWithoutAlgo(string[] inputs)
 {
     var totalCase = Int32<span class="preprocessor">.Parse</span>(inputs[<span class="number">0</span>])<span class="comment">;</span>
 
@@ -114,7 +91,7 @@
         for (var j = <span class="number">1</span><span class="comment">; j &lt; totalItem - 1; j++)</span>
         {
             var average = (items[j - <span class="number">1</span>] + items[j + <span class="number">1</span>])/<span class="number">2</span><span class="comment">;</span>
-            if (items[j] &gt<span class="comment">; average)</span>
+            if (items[j] &gt; average)
             {
                 items[j] = average<span class="comment">;</span>
             }
@@ -123,30 +100,10 @@
         Console<span class="preprocessor">.WriteLine</span>(<span class="string">"Case #{0}: {1}"</span>, i + <span class="number">1</span>, items[totalItem - <span class="number">2</span>])<span class="comment">;</span>
     }
 }
-</pre></td></tr></table></figure>
-
+</pre></figure></code></pre>
 <h3>Second solution</h3>
 <p>Second solution is pretty elegance I think, but I think it could be much better. I just couldn&#39;t figure out how to handle multiple variable (read: Math variable). I&#39;ll explain in a bit. This is the code.</p>
-<figure class="highlight lang-c#"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-</pre></td><td class="code"><pre>static void CalculateUsingAlgo(string[] inputs)
+<pre><code><figure class="highlight"><pre>static void CalculateUsingAlgo(string[] inputs)
 {
     var totalCase = Int32<span class="preprocessor">.Parse</span>(inputs[<span class="number">0</span>])<span class="comment">;</span>
 
@@ -165,8 +122,7 @@
         Console<span class="preprocessor">.WriteLine</span>(<span class="string">"Case #{0}: {1}"</span>, i + <span class="number">1</span>, items[totalItem - <span class="number">2</span>])<span class="comment">;</span>
     }
 }
-</pre></td></tr></table></figure>
-
+</pre></figure></code></pre>
 <h3>Explanation</h3>
 <p>Ok, now let me explain the Math part.</p>
 <p><img src="../../../../img/posts/hedges.gif" alt="Math Part"></p>
@@ -176,20 +132,18 @@
 <p>I was hoping the algo would work faster, but apparently it doesn&#39;t haha. Damn.
 I used the sample provided by Google. For each test, I ran the program 10 times and average the time it takes. The result is as below</p>
 <p><strong>100 Samples</strong></p>
-<figure class="highlight lang-c#"><table><tr><td class="gutter"><pre>1
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="title">Without</span> Algo : <span class="number">33</span>.<span class="number">10439</span> ms
 With Algo    : <span class="number">37</span>.<span class="number">30668</span> ms
 </pre></td></tr></table></figure>
-
-<p><strong>10,000 Samples</strong></p>
-<figure class="highlight lang-c#"><table><tr><td class="gutter"><pre>1
+<strong>10,000 Samples</strong></p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="title">Without</span> Algo : <span class="number">38</span>.<span class="number">60448</span> ms
 With Algo    : <span class="number">40</span>.<span class="number">60399</span> ms
 </pre></td></tr></table></figure>
-
-<p>As you can see, there is not much different.</p>
+As you can see, there is not much different.</p>
 
       
     </div>
