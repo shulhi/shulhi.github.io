@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>How to make Windows less suck for developers | shulhi.sapli</title>
+  <meta name="author" content="Shulhi Sapli">
+  
+  <meta name="description" content="i talk code, market, and random.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="How to make Windows less suck for developers"/>
+  <meta property="og:site_name" content="shulhi.sapli"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="shulhi.sapli" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">shulhi.sapli</a></h1>
+  <h2><a href="/">code, market, and random talks</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">How to make Windows less suck for developers</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2013-09-02T19:39:27.000Z">Sep 3 2013</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>As part of my objective to up my skills, I decided to check out all the hypes with Ruby on Rails. But… I‘m running Windows and if you’re not writing anything other than .Net languages, running Windows seems fine. For other thing it sucks a bit except for Node.js and PHP (as far as my testing goes). I‘ve tried installing OS X Mountain Lion on VM Ware but I don’t like running a full GUI to do dev work if necessary, so I installed Ubuntu 13.04 in Hyper-V so I can run it headless.</p>
+<p><a id="more"></a></p>
+<h3>Problems</h3>
+<p>My goto language has always been C# and together with Visual Studio make it as one of the best development environment ever for developers. If you are on Linux/Mac OSX I suggest trying C#/Visual Studio and your dev world will never be the same again. However! This seems untrue for any other language like Ruby, Python, etc. Of course I can make it to work in Windows but there seems to be a lot of gotchas and hacks. But I can‘t leave Windows as I need to do C# development and I don’t like dual booting as Ubuntu Unity is extremely ugly (I should try Ubuntu Gnome) so maybe running it headless might be a good idea.</p>
+<h3>Setups</h3>
+<ol>
+<li>Set up Ubuntu 13.04 in Hyper-V (Why Hyper-V, not VM-Ware? Because I hate to reboot everytime I need to use VM-Ware as VM-Ware cannot play together with Hyper-V. I need to turn off Hyper-V before I can use VM-Ware but I need Hyper-V to use Windows Phone emulator)</li>
+<li>I set up two networks adapter for Ubuntu (settings in Hyper-V).</li>
+</ol>
+<ul>
+<li>External network switch which connect to my router so Ubuntu can connect to Internet (You can think this as NAT to the router, basically it is on the same subnet as my PC)</li>
+<li>Internal network switch so the VM can have local IP address with regard to my host (NAT setup to the host or to make it complicated, it is <em>actually</em> NAT inside NAT looking from the router perspective. I set the internal network switch to have IP of 192.168.2.1/24 and Ubuntu can connect to this interface and use 192.168.2.1 as my gateway. Here my PC acts as a router).</li>
+<li>Well you could live with external network switch only and still communicate with your VM, but you will need an actual router. Once you go outside with no router there is no way to connect to your VM. That&#39;s where internal network switch comes in.</li>
+<li>Here is an ASCII art to explain</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>    External Switch (seen as eth0 <span class="keyword">in</span> Ubuntu)
+    [The Great Internet] <span class="comment">--&gt; [Router/Gateway @ 192.168.1.1] --&gt; [Windows 8 @ 192.168.1.104]</span>
+                                                            <span class="comment">--&gt; [Ubuntu @ 192.168.1.105]</span>
+                                                            <span class="comment">--&gt; [Other distro @ 192.168.1.106]</span>
+
+    Internal Switch (seen as eth1 <span class="keyword">in</span> Ubuntu)
+    [Windows <span class="number">8</span>/Gateway @ <span class="number">192.168</span><span class="number">.2</span><span class="number">.1</span>] <span class="comment">--&gt; [Ubuntu @ 192.168.2.3]</span>
+                                      <span class="comment">--&gt; [Other distro @ 192.168.2.4]</span>
+
+    Using this combination, instead <span class="keyword">of</span> <span class="attribute">'ssh</span> shulhi@<span class="number">192.168</span><span class="number">.1</span><span class="number">.105</span>' which will fail <span class="keyword">if</span> I<span class="attribute">'m</span> <span class="keyword">not</span> connected <span class="keyword">to</span> the router, I can just do this
+    <span class="attribute">'ssh</span> shulhi@<span class="number">192.168</span><span class="number">.2</span><span class="number">.3</span>' which will work wherever I go.
+</pre></td></tr></table></figure>
+
+<ol>
+<li>Then I set up SSH so I can just use putty to connect to Ubuntu.</li>
+<li>Set up a shared folder using Samba and make sure Ubuntu auto mount the shared folder everytime it starts.</li>
+<li>Now you have seamless integration between Windows and Ubuntu. I can just easily code in Sublime Text in Windows and have Rails generate all controllers, etc through SSH and all the changes are reflected on the fly as I&#39;m using samba. In fact, this is not just limited to Rails, you can do all other things as well. Think of Ubuntu as your cloud server and having the exact copy of files locally.</li>
+<li>This is like the best of both world. Who said you have to choose only one OS :D</li>
+</ol>
+<h3>Other considerations</h3>
+<ol>
+<li>I use Putty with ConEmu so command prompt sucks less.</li>
+<li>I use XMing Server for Windows just in case I need to use anything GUI from Ubuntu without the need to dive into Ubuntu.</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+<section id="comment">
+          
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+  <h1 class="title">Comments</h1>
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2013 Shulhi Sapli
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'ghshulhi';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+<script type="text/javascript">
+(function(){
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+}());
+</script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -73,8 +73,8 @@
     </header>
     <div class="entry">
       
-        <p>This time around, I had a little project with a friend which involved cryptography. So we decided to implement an AES-256 encryption/decryption. That is way above top secret (lol). I googled around looking for information and reading more on cryptography and found this <a href="http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html"><a href="http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html">http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html</a></a>. There is couple of thing which I don&#39;t like regarding the implementation but it is a good start for now.</p>
-<a name="more"></a>
+        <p>This time around, I had a little project with a friend which involved cryptography. So we decided to implement an AES-256 encryption/decryption. That is way above top secret (lol). I googled around looking for information and reading more on cryptography and found this <a href="http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html" target="_blank"><a href="http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html">http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html</a></a>. There is couple of thing which I don&#39;t like regarding the implementation but it is a good start for now.</p>
+<a id="more"></a>
 
 <p>Well, there are only two actually.</p>
 <ol>
@@ -88,16 +88,12 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre>    [<span class="number">16</span> bytes <span class="keyword">of</span> IV] + [x bytes <span class="keyword">of</span> cipher <span class="type">text</span>]
 </pre></td></tr></table></figure>
-We generate a random <code>IV</code> everytime we encrypt to ensure randomness. The link I gave you just now did not actually do this, it encrypts based on the <code>IV</code> sliced from the <code>Key</code>. I concatenate the <code>IV</code> into the cipher text (encrypted text) and encode into base64 for readability. <code>IV</code> can be public and known to sniffer, as long as the key stays private. 
 
-### Decryption
-
-To decrypt, I need to retrieve the first 16 bytes to get the <code>IV</code> and set it into the algorithm and the remaining part should be the part for decryption.
-
-I thought I can just skip the <code>IV</code> and decrypt the remaining part, but turned out that part of the message will turn out to be rubbish.
-
-## Code
-
+<p>We generate a random <code>IV</code> everytime we encrypt to ensure randomness. The link I gave you just now did not actually do this, it encrypts based on the <code>IV</code> sliced from the <code>Key</code>. I concatenate the <code>IV</code> into the cipher text (encrypted text) and encode into base64 for readability. <code>IV</code> can be public and known to sniffer, as long as the key stays private. </p>
+<h3>Decryption</h3>
+<p>To decrypt, I need to retrieve the first 16 bytes to get the <code>IV</code> and set it into the algorithm and the remaining part should be the part for decryption.</p>
+<p>I thought I can just skip the <code>IV</code> and decrypt the remaining part, but turned out that part of the message will turn out to be rubbish.</p>
+<h2>Code</h2>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -215,6 +211,7 @@ I thought I can just skip the <code>IV</code> and decrypt the remaining part, bu
         return Encoding<span class="preprocessor">.UTF</span>8<span class="preprocessor">.GetString</span>(decrypto<span class="preprocessor">.TransformFinalBlock</span>(encryptedBytes, <span class="number">0</span>, encryptedBytes<span class="preprocessor">.Length</span>))<span class="comment">;</span>
     }
 </pre></td></tr></table></figure>
+
 
       
     </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ETag in HTTP headers | shulhi.sapli</title>
+  <title>Playing nicely with Pagodabox | shulhi.sapli</title>
   <meta name="author" content="Shulhi Sapli">
   
   <meta name="description" content="i talk code, market, and random.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="ETag in HTTP headers"/>
+  <meta property="og:title" content="Playing nicely with Pagodabox"/>
   <meta property="og:site_name" content="shulhi.sapli"/>
 
   
@@ -62,38 +62,49 @@
     <header>
       
   
-    <h1 class="title">ETag in HTTP headers</h1>
+    <h1 class="title">Playing nicely with Pagodabox</h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-04-28T03:29:44.000Z">Apr 28 2013</time>
+          Published: <time datetime="2013-09-02T18:53:47.000Z">Sep 3 2013</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>One of the thing that I learned while making my app is how to optimize call to the webservice returning XML (RSS feed and the like). There is one cool feature called <a href="http://en.wikipedia.org/wiki/HTTP_ETag" target="_blank">ETag</a>.</p>
+        <p>Recently, I get a chance working with Pagodabox while helping a friend with a client project. If you do not know about Pagodabox, you can go to their website to checkout. In short it is a cloud solution to deployment of web application. One of the nice feature of Pagodabox is you can actually connect directly to the Sql Server. Most of traditional hostings involve using some sort of web interface (e.g PhpMyAdmin) to interact with db. If you‘re using Mac OSX, then you should be fine but anything on Windows is a pain. I’m going to show you how this can be done on Windows (sort of!) and backed by Ubuntu VM running in the guest.</p>
 <a id="more"></a>
 
-<p>Sometimes you need to know whether the RSS feed has changed, so you can make a request to pull new info. How to know without exactly requesting the XML itself. </p>
-<p>It is very simple actually, just send HTTP request for the headers only and take note of the ETag. Then compare if the previous ETag matched with the new ETag, if it matches, then the resource doesn&#39;t change.</p>
-<p>Here is the code in C#.</p>
-<pre><code><span class="keyword">static</span> <span class="keyword">void</span> Main(string[] args)
-{
-    WebRequest webRequest = HttpWebRequest<span class="variable">.Create</span>(<span class="string">"http://www.forexfactory.com/ffcal_week_this.xml"</span>);
-
-    <span class="comment">// Only request the headers, not the whole content</span>
-    webRequest<span class="variable">.Method</span> = <span class="string">"HEAD"</span>;
-    var response = webRequest<span class="variable">.GetResponse</span>();
-
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; response<span class="variable">.Headers</span><span class="variable">.Count</span>; i++)
-    {
-        Console<span class="variable">.WriteLine</span>(response<span class="variable">.Headers</span><span class="variable">.Keys</span>[i] + <span class="string">" : "</span> + response<span class="variable">.Headers</span>[i]);
-    }
-
-    Console<span class="variable">.Read</span>();
-}</code></pre>
+<p>Assumptions:<br>1. I have Ubuntu 13.04 (guest) running in my Hyper-V as headless VM.<br>2. I have access to the VM through SSH.<br>3. HeidiSQL is installed on my Win 8 (host)<br>4. In Ubuntu, make sure you have properly set your SSH Key with Pagodabox</p>
+<h3>Let&#39;s do this in few simple steps</h3>
+<ol>
+<li>You will need to configure your VM such that your host can reach your guest and vice versa (i.e. host &lt;-&gt; guest)</li>
+<li>SSH to Ubuntu</li>
+<li>Follow the standard procedures from <a href="http://help.pagodabox.com/customer/portal/articles/175427-creating-a-secure-database-tunnel-from-your-desktop" target="_blank">Pagodabox</a></li>
+<li>Once tunnel is successfuly created, open up HeidiSQL in Windows</li>
+<li>Settings</li>
+</ol>
+<ul>
+<li>Network type: MySQL (TCP/IP)</li>
+<li>Hostname: 192.168.2.3 (This will be my Ubuntu&#39;s IP address)</li>
+<li>Uncheck prompt for credential</li>
+<li>User: <check your pagoda dashboard></li>
+<li>Password: <check your pagoda dashboard></li>
+<li>Port: 3306 (Your might be different)</li>
+</ul>
+<ol>
+<li>Click open, and you should be able to access the database.</li>
+</ol>
+<h3>Notes/ Clarifications</h3>
+<ol>
+<li>The most important part is that your guest VM and your host (Windows) must be able to communicate correctly.</li>
+<li>For my settings, Pagodabox (local copy of Wordpress) is set up in my Windows using WAMP server (like LAMP/XAMP). Next time maybe I&#39;ll try to host everything on my Ubuntu box.</li>
+<li>I shared the local copy of Wordpress so I can access it from Ubuntu using Samba. I think this is part of verification by Pagoda as well to make sure you are the owner of said project/repo.</li>
+<li>Basically, Ubuntu is just there to act as a little server that connects/tunnels to Pagodabox&#39;s SQL server.</li>
+<li>Since my Windows host can access to my Ubuntu guest, HeidiSQL can connect to this local server that I&#39;ve created.</li>
+</ol>
+<p>If you have had time figuring this out, my writing can be cryptic at time. Just shoot me an email and I&#39;ll be glad to help.</p>
 
       
     </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ETag in HTTP headers | shulhi.sapli</title>
+  <title>WP8 Uri association with Caliburn.Micro | shulhi.sapli</title>
   <meta name="author" content="Shulhi Sapli">
   
   <meta name="description" content="i talk code, market, and random.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="ETag in HTTP headers"/>
+  <meta property="og:title" content="WP8 Uri association with Caliburn.Micro"/>
   <meta property="og:site_name" content="shulhi.sapli"/>
 
   
@@ -62,37 +62,61 @@
     <header>
       
   
-    <h1 class="title">ETag in HTTP headers</h1>
+    <h1 class="title">WP8 Uri association with Caliburn.Micro</h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-04-28T03:29:44.000Z">Apr 28 2013</time>
+          Published: <time datetime="2013-04-28T03:45:20.000Z">Apr 28 2013</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>One of the thing that I learned while making my app is how to optimize call to the webservice returning XML (RSS feed and the like). There is one cool feature called <a href="http://en.wikipedia.org/wiki/HTTP_ETag" target="_blank">ETag</a>.</p>
+        <p>Windows Phone 8 has this new feature of opening an app (in this case my own app) by assigning Uri. It is useful when you are doing Oauth and need to supply the redirection uri. If you are using this new feature, then your app can be automatically opened after oauth is done.</p>
 <a id="more"></a>
 
-<p>Sometimes you need to know whether the RSS feed has changed, so you can make a request to pull new info. How to know without exactly requesting the XML itself. </p>
-<p>It is very simple actually, just send HTTP request for the headers only and take note of the ETag. Then compare if the previous ETag matched with the new ETag, if it matches, then the resource doesn&#39;t change.</p>
-<p>Here is the code in C#.</p>
-<pre><code><span class="keyword">static</span> <span class="keyword">void</span> Main(string[] args)
+<p>You can follow this tutorial to get up to speed with Uri Association and Oauth with Windows Phone. It should be pretty easy to implement this. </p>
+<ul>
+<li><a href="http://www.developer.nokia.com/Community/Wiki/OAuth_on_Windows_Phone" target="_blank"><a href="http://www.developer.nokia.com/Community/Wiki/OAuth_on_Windows_Phone">http://www.developer.nokia.com/Community/Wiki/OAuth_on_Windows_Phone</a></a></li>
+<li><a href="http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8" target="_blank"><a href="http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8">http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8</a></a></li>
+</ul>
+<p>But chances are, you might be using some sort of MVVM framework to structure your app. If you don&#39;t, I encourage you to take a look at <a href="http://caliburnmicro.codeplex.com/" target="_blank">Caliburn.Micro</a>.</p>
+<p>After bashing my head few times, I finally managed to get it to work with Caliburn. The trickiest part is to understand how properly override the <code>RootFrame</code>.</p>
+<p>In your <code>bootstrapper.cs</code></p>
+<pre><code>protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
 {
-    WebRequest webRequest = HttpWebRequest<span class="variable">.Create</span>(<span class="string">"http://www.forexfactory.com/ffcal_week_this.xml"</span>);
+    <span class="regexp">//</span> <span class="reserved">var</span> frame = base.CreatePhoneApplicationFrame(); <span class="keyword">this</span> doesnt work
+    <span class="reserved">var</span> frame = <span class="keyword">new</span> PhoneApplicationFrame(); <span class="regexp">//</span> <span class="keyword">this</span> works
+    frame.UriMapper = <span class="keyword">new</span> AssociationUriMapper();
 
-    <span class="comment">// Only request the headers, not the whole content</span>
-    webRequest<span class="variable">.Method</span> = <span class="string">"HEAD"</span>;
-    var response = webRequest<span class="variable">.GetResponse</span>();
+    <span class="keyword">return</span> frame;
+}</code></pre>
+<p>And <code>AssociationUriMapper.cs</code> (as per the example in the link above)</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="id">AssociationUriMapper</span> : <span class="id">UriMapperBase</span></span>
+{
+    <span class="keyword">private</span> string tempUri;
 
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; response<span class="variable">.Headers</span><span class="variable">.Count</span>; i++)
+
+    <span class="keyword">public</span> override Uri MapUri(Uri uri)
     {
-        Console<span class="variable">.WriteLine</span>(response<span class="variable">.Headers</span><span class="variable">.Keys</span>[i] + <span class="string">" : "</span> + response<span class="variable">.Headers</span>[i]);
-    }
+        tempUri = System<span class="variable">.Net</span><span class="variable">.HttpUtility</span><span class="variable">.UrlDecode</span>(uri<span class="variable">.ToString</span>());
 
-    Console<span class="variable">.Read</span>();
+        <span class="comment">// URI association launch for contoso.</span>
+        <span class="keyword">if</span> (tempUri<span class="variable">.Contains</span>(<span class="string">"pocketthis:MainPage"</span>))
+        {
+            <span class="comment">// Get the category ID (after "CategoryID=").</span>
+            <span class="comment">//int categoryIdIndex = tempUri.IndexOf("CategoryID=") + 11;</span>
+            <span class="comment">//string categoryId = tempUri.Substring(categoryIdIndex);</span>
+
+            <span class="comment">// Views/MainPage.xaml returns external exception, </span>
+            <span class="comment">// so remember the / before views</span>
+            <span class="keyword">return</span> new Uri(<span class="string">"/Views/MainPage.xaml"</span>, UriKind<span class="variable">.Relative</span>);
+        }
+
+        <span class="comment">// Otherwise perform normal launch.</span>
+        <span class="keyword">return</span> uri;
+    }
 }</code></pre>
 
       

@@ -73,8 +73,8 @@
     </header>
     <div class="entry">
       
-        <p>I am currently working to finish up <a href="http://getpocket.com/developer">Pocket Api</a> wrapper for C#/.Net. In turned out that the Api returned list of articles/items in Json and the list is not in array form. It is actually a list of object. We will see how we can deserialize this using <a href="http://james.newtonking.com/projects/json-net.aspx.">Json.net</a></p>
-<a name="more"></a>
+        <p>I am currently working to finish up <a href="http://getpocket.com/developer" target="_blank">Pocket Api</a> wrapper for C#/.Net. In turned out that the Api returned list of articles/items in Json and the list is not in array form. It is actually a list of object. We will see how we can deserialize this using <a href="http://james.newtonking.com/projects/json-net.aspx." target="_blank">Json.net</a></p>
+<a id="more"></a>
 
 <p>First of all it should be straight forward to do this if it returns an array of article. However, this is the Json that was returned. I deprecated some of the code/response to make it brief.</p>
 <pre><code>{ "<span class="attribute">complete</span>" : <span class="value"><span class="number">1</span></span>,
@@ -101,8 +101,7 @@
     }</span></span>,
   "<span class="attribute">since</span>" : <span class="value"><span class="number">1367131079</span></span>,
   "<span class="attribute">status</span>" : <span class="value"><span class="number">1</span>
-}</span>
-</code></pre>
+}</span></code></pre>
 <p>To solve this, just treat it as Dictionary or Key-Value-Pair relationship. So, with Json.net, the class correspond to this should be something like this.</p>
 <pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pocket</span>
 {</span>
@@ -137,11 +136,9 @@
         <span class="keyword">get</span> { <span class="keyword">return</span> _isArticle == <span class="number">1</span> ? <span class="literal">true</span> : <span class="literal">false</span>; }
         <span class="keyword">set</span> { _isArticle = value ? <span class="number">1</span> : <span class="number">0</span>; }
     }
-}
-</code></pre>
+}</code></pre>
 <p>Then just call it like this</p>
-<pre><code>var converted = JsonConvert.DeserializeObject<span class="tag">&lt;<span class="title">Pocket</span>&gt;</span>(json);
-</code></pre>
+<pre><code>var converted = JsonConvert.DeserializeObject<span class="tag">&lt;<span class="title">Pocket</span>&gt;</span>(json);</code></pre>
 
       
     </div>

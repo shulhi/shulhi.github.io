@@ -74,9 +74,9 @@
     <div class="entry">
       
         <p>While learning the new asynchrony feature in C# 5.0, I was experimenting the difference between the previous method of achieving asynchrony using callback against the latest feature provided by C# by utilizing the <code>async</code> and <code>await</code> keyword. So what&#39;s the difference?</p>
-<a name="more"></a>
+<a id="more"></a>
 
-<p>This question raised againt when I was browsing <a href="http://stackoverflow.com/questions/16724470/c-sharp-asynchronous-httpwebrequest-on-windows-phone/16751309#16751309">SO</a>. So I thought I would discuss it here. Besides the internal implementation difference by MS (based on my reading, <code>async</code> and <code>await</code> does not utilize threading, the flow of the code actually changes. </p>
+<p>This question raised againt when I was browsing <a href="http://stackoverflow.com/questions/16724470/c-sharp-asynchronous-httpwebrequest-on-windows-phone/16751309#16751309" target="_blank">SO</a>. So I thought I would discuss it here. Besides the internal implementation difference by MS (based on my reading, <code>async</code> and <code>await</code> does not utilize threading, the flow of the code actually changes. </p>
 <p>Consider the following code:</p>
 <pre><code>static void Main(string[] args)
 {
@@ -110,8 +110,7 @@ private static void UseWebClient()
     Console<span class="preprocessor">.WriteLine</span>(<span class="string">"WebClient requesting..."</span>)<span class="comment">;</span>
     webClient<span class="preprocessor">.DownloadStringCompleted</span> += (sender, eventArgs) =&gt; Console<span class="preprocessor">.WriteLine</span>(eventArgs<span class="preprocessor">.Result</span><span class="preprocessor">.Substring</span>(<span class="number">0</span>,<span class="number">100</span>))<span class="comment">;</span>
     Console<span class="preprocessor">.WriteLine</span>(<span class="string">"WebClient done."</span>)<span class="comment">;</span>
-}
-</code></pre>
+}</code></pre>
 <p>You might guess that both would output the same result, right? Apparently no.</p>
 <p>Output:</p>
 <pre><code>=== HttpClient ==
@@ -124,13 +123,10 @@ HttpClient requesting...
 <span class="attribute">WebClient</span> <span class="attribute">requesting...</span>
 <span class="attribute">WebClient</span> <span class="attribute">done.</span>
 &lt;!<span class="attribute">doctype</span> <span class="attribute">html</span>&gt;</span><span class="tag">&lt;<span class="title">html</span> <span class="attribute">itemscope</span>=<span class="value">"itemscope"</span> <span class="attribute">itemtype</span>=<span class="value">"http://schema.org/WebPage"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">head</span>&gt;</span><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">itemprop</span></span>
-</code></pre>
-<p>When you have <code>await</code> keyword, what it does is that it returns back to the caller of the method, thus any code after the <code>await</code> keyword does not actually get executed yet because it <em>await</em> for the result. It is different from the callback method. In term of flow of code, you might agree that the new feature of <code>await</code> makes the code flows better. You no longer have &#39;jump&#39; to certain part of code as the callback is called.</p>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">itemprop</span></span></code></pre>
+<p>When you have <code>await</code> keyword, what it does is that it returns back to the caller of the method, thus any code after the <code>await</code> keyword does not actually get executed yet because it <em>await</em> for the result. It is different from the callback method. In term of flow of code, you might agree that the new feature of <code>await</code> makes the code flows better. You no longer have ‘jump’ to certain part of code as the callback is called.</p>
 <p>Callback method is still okay to use, in fact there are still .Net libraries aren&#39;t updated yet to support the new feature. For example, the <code>WebClient</code> still utilize the callback method. To make it asynchronous, you would have to do some sort of threading, which is pretty pain in the neck. Another easier way is to create a method utilizing the <code>TaskCompletionSource</code>. If you google around, this has been covered a lot.</p>
-<p>This is a useful source for it:
-1. <a href="http://stackoverflow.com/questions/10419747/taskcompletionsource-trying-to-understand-threadless-async-work">StackOverflow discussion</a>
-2. <a href="http://blog.stephencleary.com/2012/02/creating-tasks.html">Stephen Cleary&#39;s blog</a></p>
+<p>This is a useful source for it:<br>1. <a href="http://stackoverflow.com/questions/10419747/taskcompletionsource-trying-to-understand-threadless-async-work" target="_blank">StackOverflow discussion</a><br>2. <a href="http://blog.stephencleary.com/2012/02/creating-tasks.html" target="_blank">Stephen Cleary&#39;s blog</a></p>
 
       
     </div>
