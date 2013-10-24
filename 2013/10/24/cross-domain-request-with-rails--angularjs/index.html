@@ -1,0 +1,260 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Cross-domain request with Rails + Angular.js | shulhi.sapli</title>
+  <meta name="author" content="Shulhi Sapli">
+  
+  <meta name="description" content="i talk code, market, and random.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Cross-domain request with Rails + Angular.js"/>
+  <meta property="og:site_name" content="shulhi.sapli"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="shulhi.sapli" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43763493-1', 'blog.shulhi.com');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">shulhi.sapli</a></h1>
+  <h2><a href="/">code, market, and random talks</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Cross-domain request with Rails + Angular.js</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2013-10-24T10:06:04.000Z">Oct 24 2013</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>I was playing around with AngularJs recently and decided to integrate it with Rails. The goal is to have total separation between front-end and back-end. Back-end will act as a RESTful service that spits JSON. Both front-end and back-end will be served from different server and will have different domain, so there are few options to achieve this. Whenever you are doing cross domain request, you will be subjected to same-origin policy.<br><a id="more"></a><br>Options</p>
+<ol>
+<li>JSON-P </li>
+</ol>
+<p>At first, I did it using JSON-P but I don‘t like having a callback in the url. I prefer to keep it clean and there is also an issue of security when doing JSON-P like XSS. Fortunately, it was quite easy to implement JSON-P in both Rails and Angular. I don’t need to have special treatment whether I&#39;m sending a <code>GET</code> request or <code>POST</code> request. Both will be treated the same.</p>
+<p>The rails server must be able to receive the callback.</p>
+<pre><code><span class="comment"># assuming this is the controller that will receive the request</span>
+<span class="function"><span class="keyword">def</span> <span class="title">index</span></span>
+  render <span class="symbol">:json</span> =&gt; <span class="variable">@posts</span>, <span class="symbol">:callback</span> =&gt; params[<span class="symbol">:callback</span>]
+<span class="keyword">end</span></code></pre>
+<p>and in <code>controller.js</code> in angular app</p>
+<pre><code>$http.jsonp('http://ubuntu.dev:<span class="number">3000</span>/posts?callback=<span class="type">JSON_CALLBACK'</span>).success(function(<span class="typedef"><span class="keyword">data</span>) <span class="container">{
+  $<span class="title">scope</span>.<span class="title">posts</span> = <span class="title">data</span>;
+}</span>);</span></code></pre>
+<p>notice that the callback <strong>must</strong> be <code>JSON_CALLBACK</code> for it to work.</p>
+<ol>
+<li>CORS</li>
+</ol>
+<p>CORS is the way to go, but not all browsers support this and like all thing in web development, there is inconsistency of support (feature).</p>
+<ol>
+<li>Proxy-server</li>
+</ol>
+<p>Don&#39;t know shit about the implementation.</p>
+<h1>CORS Implementation</h1>
+<p>In order to understand CORS better, google and read <strong>a lot</strong> about CORS. To summarize, CORS can be divided into two - 1. Simple request 2. Not-so-simple/Complex request.<br>There are criteria regarding how thing fall into either one of these categories. In short, if you&#39;re dealing with standard headers, plain/text content-type, and sending a <code>GET</code> request, chances are it will be simple request and things will be easy. Otherwise, it will be a complex request. </p>
+<h2>Complex Request</h2>
+<p>When doing complex request, the browser will send a <code>preflight</code> request to the server before sending an actual request. If the server is okay with it, browser can proceed with sending an actual request. The <code>preflight</code> request is sent through <code>HTTP OPTIONS</code> request. So it is important to react to this request.</p>
+<h2>Server Side</h2>
+<p>Because not all servers can respond to <code>OPTIONS</code> request, you need to implement this. In Rails, you will usually do this in <code>routes.rb</code></p>
+<pre><code><span class="title">resources</span> :posts</code></pre>
+<p>and this will create routes that correspond to RESTful verb like GET, POST, PUT, PATCH, and DELETE. But, it doesn&#39;t cover OPTIONS, you will need to this manually. So, add this in <code>routes.rb</code> to support <code>OPTIONS</code> verb.</p>
+<pre><code>match <span class="string">'/posts'</span> =&gt; <span class="string">'posts#options'</span>, <span class="symbol">:constraints</span> =&gt; {<span class="symbol">:method</span> =&gt; <span class="string">'OPTIONS'</span>}, <span class="symbol">via:</span> [<span class="symbol">:options</span>]</code></pre>
+<p>Basically, this is saying to Rails that “Hey, if someone send an OPTIONS request to /posts, please goto posts controller and execute the options action”. Then, the action in the controller must now act to this request. Usually what we need to do is check if the domain is whitelisted and we can send an OK signal to proceed with the actual request. For simplicity sake, I would just allow everything.</p>
+<p><code>posts_controller.rb</code><br>    class PostsController &lt; ApplicationController</p>
+<pre><code>  <span class="comment"># we want to set the headers before executing any action</span>
+  before_filter <span class="symbol">:set_headers</span> 
+  protect_from_forgery <span class="symbol">with:</span> <span class="symbol">:null_session</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">create</span></span>
+    <span class="variable">@post</span> = <span class="constant">Post</span>.new
+    <span class="variable">@post</span>.title = params[<span class="symbol">:title</span>]
+    <span class="variable">@post</span>.text = params[<span class="symbol">:text</span>]
+
+    <span class="keyword">if</span> <span class="variable">@post</span>.save
+      render <span class="symbol">:json</span> =&gt; { <span class="symbol">:status</span> =&gt; <span class="string">"success"</span>, <span class="symbol">:message</span> =&gt; <span class="variable">@post</span>}, <span class="symbol">:status</span> =&gt; <span class="number">200</span>
+    <span class="keyword">else</span>
+      render <span class="symbol">:json</span> =&gt; { <span class="symbol">:status</span> =&gt; <span class="string">"error"</span>, <span class="symbol">:message</span> =&gt; <span class="string">"Unable to save"</span> }, <span class="symbol">:status</span> =&gt; <span class="number">422</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">options</span></span>
+    set_headers
+    <span class="comment"># this will send an empty request to the clien with 200 status code (OK, can proceed)</span>
+    render <span class="symbol">:text</span> =&gt; <span class="string">''</span>, <span class="symbol">:content_type</span> =&gt; <span class="string">'text/plain'</span>
+  <span class="keyword">end</span>
+
+  private
+    <span class="comment"># Set CORS</span>
+    <span class="function"><span class="keyword">def</span> <span class="title">set_headers</span></span>
+      headers[<span class="string">'Access-Control-Allow-Origin'</span>] = <span class="string">'*'</span>
+      headers[<span class="string">'Access-Control-Expose-Headers'</span>] = <span class="string">'Etag'</span>
+      headers[<span class="string">'Access-Control-Allow-Methods'</span>] = <span class="string">'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD'</span>
+      headers[<span class="string">'Access-Control-Allow-Headers'</span>] = <span class="string">'*, x-requested-with, Content-Type, If-Modified-Since, If-None-Match'</span>
+      headers[<span class="string">'Access-Control-Max-Age'</span>] = <span class="string">'86400'</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+<p><code>Access-Control-Allow-Origin</code> is where we control who can have the access. Also note that <code>Access-Control-Allow-Headers</code> is set to <code>x-requested-with</code>. This is usually used when using an AJAX request. We do not want the server to reject the request. If we set this here in the server, we won‘t need to delete the header when sending the request from the client. You’ll see this in a client-side code in a bit.</p>
+<h2>Client-side</h2>
+<p>For your information, I&#39;m just using the seed project template provided by Angular. Nothing fancy.</p>
+<p><code>controllers.js</code><br>    /<em> Controllers </em>/</p>
+<pre><code>angular.module(<span class="string">'myApp.controllers'</span>, []).
+  controller(<span class="string">'MyCtrl1'</span>, [<span class="string">'$scope'</span>, <span class="string">'$http'</span>,function(<span class="variable">$scope</span>, <span class="variable">$http</span>) {
+    <span class="variable">$http</span>.get(<span class="string">'http://ubuntu.dev:3000/posts'</span>).success(function(data) {
+      <span class="variable">$scope</span>.posts = data;
+    });
+  }])
+  .controller(<span class="string">'MyCtrl2'</span>, [<span class="string">'$scope'</span>, <span class="string">'$http'</span>, function(<span class="variable">$scope</span>, <span class="variable">$http</span>) {
+
+    <span class="comment">// Don't need this if you have allow 'X-Requested-With' inside</span>
+    <span class="comment">// 'Access-Control-Allow-Headers' header in the server</span>
+    <span class="comment">// $http.defaults.useXDomain = true;</span>
+    <span class="comment">// delete $http.defaults.headers.common['X-Requested-With'];</span>
+
+    <span class="variable">$scope</span>.submit = function() {
+      console.<span class="keyword">log</span>(<span class="variable">$scope</span>.review);
+      <span class="variable">$http</span>({
+        method: <span class="string">'POST'</span>,
+        url: <span class="string">'http://ubuntu.dev:3000/posts'</span>,
+        <span class="comment">// this data is passed as JSON</span>
+        <span class="comment">// I tried with form url encoding, but the server side receive the value as null</span>
+        <span class="comment">// Probably it doesn't know how to read those value, but received the request so assigned as null</span>
+        data: <span class="variable">$scope</span>.review,
+      })
+      .success(function(response) {
+        <span class="comment">// Do something when success</span>
+      });
+    };
+}]);</code></pre>
+<p><code>partial2.html</code><br>    <form name="review_form" ng-submit="submit()" ><br>        Title: <input type="text" ng-model="review.title"/><br /><br>        Text: <input type="text" ng-model="review.text"/><br /></p>
+<pre><code>    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> /&gt;</span>
+<span class="tag">&lt;/<span class="title">form</span>&gt;</span></code></pre>
+<p>Notice that if compared to JSON-P, this method is much cleaner as there is no callback anymore, although a bit more involved.</p>
+<h2>Gems</h2>
+<p>Of course like all things in Rails, there is gem for that. You can use this middleware to handle CORS in Rails, <a href="https://github.com/cyu/rack-cors" target="_blank">Rack-Cors</a>. And if you&#39;re developing API only in Rails, you can use <a href="https://github.com/rails-api/rails-api" target="_blank">Rails-API</a>. It removes all the unnecessary things, just focus on API support.</p>
+<p>I believe in understanding the basic of the inner workings of anything before using it. Of course, not trying to re-invent the wheel here but that&#39;s how I learn a lot. YMMV.</p>
+<p>I&#39;ll try to post the link for the project in github later.</p>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+<section id="comment">
+          
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+  <h1 class="title">Comments</h1>
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2013 Shulhi Sapli
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'ghshulhi';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
