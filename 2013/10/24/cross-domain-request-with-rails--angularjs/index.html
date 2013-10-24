@@ -111,8 +111,9 @@
 <p>and this will create routes that correspond to RESTful verb like GET, POST, PUT, PATCH, and DELETE. But, it doesn&#39;t cover OPTIONS, you will need to this manually. So, add this in <code>routes.rb</code> to support <code>OPTIONS</code> verb.</p>
 <pre><code>match <span class="string">'/posts'</span> =&gt; <span class="string">'posts#options'</span>, <span class="symbol">:constraints</span> =&gt; {<span class="symbol">:method</span> =&gt; <span class="string">'OPTIONS'</span>}, <span class="symbol">via:</span> [<span class="symbol">:options</span>]</code></pre>
 <p>Basically, this is saying to Rails that “Hey, if someone send an OPTIONS request to /posts, please goto posts controller and execute the options action”. Then, the action in the controller must now act to this request. Usually what we need to do is check if the domain is whitelisted and we can send an OK signal to proceed with the actual request. For simplicity sake, I would just allow everything.</p>
-<p><code>posts_controller.rb</code><br>    class PostsController &lt; ApplicationController</p>
-<pre><code>  <span class="comment"># we want to set the headers before executing any action</span>
+<p><code>posts_controller.rb</code></p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">PostsController</span> <span class="inheritance">&lt; <span class="parent">ApplicationController</span></span></span>
+  <span class="comment"># we want to set the headers before executing any action</span>
   before_filter <span class="symbol">:set_headers</span> 
   protect_from_forgery <span class="symbol">with:</span> <span class="symbol">:null_session</span>
 
@@ -147,7 +148,7 @@
 <p><code>Access-Control-Allow-Origin</code> is where we control who can have the access. Also note that <code>Access-Control-Allow-Headers</code> is set to <code>x-requested-with</code>. This is usually used when using an AJAX request. We do not want the server to reject the request. If we set this here in the server, we won‘t need to delete the header when sending the request from the client. You’ll see this in a client-side code in a bit.</p>
 <h2>Client-side</h2>
 <p>For your information, I&#39;m just using the seed project template provided by Angular. Nothing fancy.</p>
-<p><code>controllers.js</code><br>    /<em> Controllers </em>/</p>
+<p><code>controllers.js</code></p>
 <pre><code>angular.module(<span class="string">'myApp.controllers'</span>, []).
   controller(<span class="string">'MyCtrl1'</span>, [<span class="string">'$scope'</span>, <span class="string">'$http'</span>,function(<span class="variable">$scope</span>, <span class="variable">$http</span>) {
     <span class="variable">$http</span>.get(<span class="string">'http://ubuntu.dev:3000/posts'</span>).success(function(data) {
@@ -176,8 +177,12 @@
       });
     };
 }]);</code></pre>
-<p><code>partial2.html</code><br>    <form name="review_form" ng-submit="submit()" ><br>        Title: <input type="text" ng-model="review.title"/><br /><br>        Text: <input type="text" ng-model="review.text"/><br /></p>
-<pre><code>    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> /&gt;</span>
+<p><code>partial2.html</code></p>
+<pre><code><span class="tag">&lt;<span class="title">form</span> <span class="attribute">name</span>=<span class="value">"review_form"</span> <span class="attribute">ng-submit</span>=<span class="value">"submit()"</span> &gt;</span>
+    Title: <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">ng-model</span>=<span class="value">"review.title"</span>/&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span>
+    Text: <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">ng-model</span>=<span class="value">"review.text"</span>/&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span>
+
+    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> /&gt;</span>
 <span class="tag">&lt;/<span class="title">form</span>&gt;</span></code></pre>
 <p>Notice that if compared to JSON-P, this method is much cleaner as there is no callback anymore, although a bit more involved.</p>
 <h2>Gems</h2>
