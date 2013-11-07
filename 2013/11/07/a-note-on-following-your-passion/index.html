@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>WP8 Uri association with Caliburn.Micro | shulhi.sapli</title>
+  <title>A note on following your passion | shulhi.sapli</title>
   <meta name="author" content="Shulhi Sapli">
   
   <meta name="description" content="i talk code, market, and random.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="WP8 Uri association with Caliburn.Micro"/>
+  <meta property="og:title" content="A note on following your passion"/>
   <meta property="og:site_name" content="shulhi.sapli"/>
 
   
@@ -72,62 +72,42 @@
     <header>
       
   
-    <h1 class="title">WP8 Uri association with Caliburn.Micro</h1>
+    <h1 class="title">A note on following your passion</h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-04-28T03:45:20.000Z">Apr 28 2013</time>
+          Published: <time datetime="2013-11-07T14:07:45.000Z">Nov 7 2013</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>Windows Phone 8 has this new feature of opening an app (in this case my own app) by assigning Uri. It is useful when you are doing Oauth and need to supply the redirection uri. If you are using this new feature, then your app can be automatically opened after oauth is done.</p>
+        <p>A non-technical post to share my experience in making a career shift from banking to software engineering industry. This is just the beginning and I am so excited to what future might hold. After almost two years in previous position, I no longer feel excited about the job and had a strong urge to follow my dream. So, I quit.</p>
 <a id="more"></a>
 
-<p>You can follow this tutorial to get up to speed with Uri Association and Oauth with Windows Phone. It should be pretty easy to implement this. </p>
-<ul>
-<li><a href="http://www.developer.nokia.com/Community/Wiki/OAuth_on_Windows_Phone" target="_blank"><a href="http://www.developer.nokia.com/Community/Wiki/OAuth_on_Windows_Phone">http://www.developer.nokia.com/Community/Wiki/OAuth_on_Windows_Phone</a></a></li>
-<li><a href="http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8" target="_blank"><a href="http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8">http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8</a></a></li>
-</ul>
-<p>But chances are, you might be using some sort of MVVM framework to structure your app. If you don&#39;t, I encourage you to take a look at <a href="http://caliburnmicro.codeplex.com/" target="_blank">Caliburn.Micro</a>.</p>
-<p>After bashing my head few times, I finally managed to get it to work with Caliburn. The trickiest part is to understand how properly override the <code>RootFrame</code>.</p>
-<p>In your <code>bootstrapper.cs</code></p>
-<pre><code>protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
-{
-    <span class="regexp">//</span> <span class="reserved">var</span> frame = base.CreatePhoneApplicationFrame(); <span class="keyword">this</span> doesnt work
-    <span class="reserved">var</span> frame = <span class="keyword">new</span> PhoneApplicationFrame(); <span class="regexp">//</span> <span class="keyword">this</span> works
-    frame.UriMapper = <span class="keyword">new</span> AssociationUriMapper();
-
-    <span class="keyword">return</span> frame;
-}</code></pre>
-<p>And <code>AssociationUriMapper.cs</code> (as per the example in the link above)</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="id">AssociationUriMapper</span> : <span class="id">UriMapperBase</span></span>
-{
-    <span class="keyword">private</span> string tempUri;
-
-
-    <span class="keyword">public</span> override Uri MapUri(Uri uri)
-    {
-        tempUri = System<span class="variable">.Net</span><span class="variable">.HttpUtility</span><span class="variable">.UrlDecode</span>(uri<span class="variable">.ToString</span>());
-
-        <span class="comment">// URI association launch for contoso.</span>
-        <span class="keyword">if</span> (tempUri<span class="variable">.Contains</span>(<span class="string">"pocketthis:MainPage"</span>))
-        {
-            <span class="comment">// Get the category ID (after "CategoryID=").</span>
-            <span class="comment">//int categoryIdIndex = tempUri.IndexOf("CategoryID=") + 11;</span>
-            <span class="comment">//string categoryId = tempUri.Substring(categoryIdIndex);</span>
-
-            <span class="comment">// Views/MainPage.xaml returns external exception, </span>
-            <span class="comment">// so remember the / before views</span>
-            <span class="keyword">return</span> new Uri(<span class="string">"/Views/MainPage.xaml"</span>, UriKind<span class="variable">.Relative</span>);
-        }
-
-        <span class="comment">// Otherwise perform normal launch.</span>
-        <span class="keyword">return</span> uri;
-    }
-}</code></pre>
+<p>Frankly, I was scared. It was my first job and I had nothing line up when I quit. Looking at the decision retrospectively, I glad I did it. There are couple of reasons that led to my decision. I wasn&#39;t going anywhere, the job no longer feels appealing and most importantly, I realized I want to do something <em>challenging</em> that I <em>enjoy</em>. It is all about job satisfaction. I also realized whatever I do, I keep on getting back to software/web development, experimenting with techs. I just don&#39;t realized that I want to do it full-time.</p>
+<h2>The plan</h2>
+<p>A year before I quit, I save up as much as I can as a buffer for my unemployment days. At the same time, I start going back on time from work so I can focus on re-sharpening my skills. I started programming since little (on and off), so it&#39;s not exactly like learning from scratch. Couple of things that I was focusing on at that time were:</p>
+<ol>
+<li>Basic data structures and algorithm<br>I can&#39;t stress this enough. This is the most important part of software engineering. IMO, it what separates a programmer and a software engineer. My focus was on knowing the implementation of the basic sorting/traversal algo, data structures, and knowing its time and space complexity. The idea was to cover whatever I missed by not having a CS degree and to think like an engineer.</li>
+<li>Projects<br>Learning to code is easy. Coding a sample project from tutorial is easy. But writing a pet project is entirely at another level. It teaches you how to structure your application, learning good practices, and designs/patterns. If you‘re using some sort of framework, it helps to understand how to read other people’s code and how it fits with your application. Having projects are also good as you have something to show to interviewers.</li>
+<li>Communities/Activities<br>I joined couple of events to gauge my skills so I can make a good action plan based on my assessment. I went for hackathons, meet up new people and try to have some sense of where my skills are rated compared to others. There are a lot of knowledgeable people out there. I also start pushing up my codes to Github.</li>
+<li>Have a backup plan<br>My backup plan is simply having enough buffer and be frugal. I was also planning to do freelance to keep my pocket filled.</li>
+</ol>
+<p>I set a target of 6 months to be at least at a proficient level in at least one language. In that period of time, I managed to publish a couple of small applications to showcase to people.</p>
+<h2>Lessons</h2>
+<p>Couple of lessons I learnt while trying to pursue engineering job.</p>
+<ol>
+<li>You need an engineering degree.</li>
+<li>You need an engineering degree.</li>
+<li>Know your data structures/algorithm well<br>Most of interviews that I attended are technical and asked about this.</li>
+<li>Have pet projects to talk about.</li>
+<li>Communication<br>I tried not to talk in jargon. Think..shut up for few seconds..and talk. It makes me talking more coherently and organized, and I don‘t look like I’m rushing things.</li>
+<li>Luck<br>You can&#39;t control this.</li>
+</ol>
+<p>Since I don&#39;t have (1) and (2), I try to compensate those by (3) and (4), and you must know about these inside out.</p>
+<p>I am grateful I received couple of offers from MNCs and startups. At the end I chose to be in a local company here because I am doing a lot of interesting stuff like Hadoop and other Big Data solutions apart from everyday software development. I am pretty sure I won‘t get this chance at any other place and it’s a great place to be in.</p>
 
       
     </div>
