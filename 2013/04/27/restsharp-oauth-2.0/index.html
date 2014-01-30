@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -87,36 +99,36 @@
 <a id="more"></a>
 
 <p>The lack of documentation of RestSharp is really annoying. I couldn’t find anything related to Oauth 2.0 implementation. But after trial and error these below code should work to get the request_token. And the rest of the process should be pretty trivial.</p>
-<pre><code>private const string BaseUri = <span class="string">"https://getpocket.com"</span><span class="comment">;</span>
-private const string ConsumerKey = <span class="string">"your-consumer-key-from-Pocket"</span><span class="comment">;</span>
+<pre><code>private const string BaseUri = &quot;https://getpocket.com&quot;;
+private const string ConsumerKey = &quot;your-consumer-key-from-Pocket&quot;;
 
 private void Login_OnClick(object sender, RoutedEventArgs e)
 {
-    var client = new RestClient(BaseUri)<span class="comment">;</span>
-    // Although the API specifies /v3/oauth/request, it gives <span class="keyword">out</span> <span class="number">406</span> Error if no <span class="preprocessor">.php</span> extension
+    var client = new RestClient(BaseUri);
+    // Although the API specifies /v3/oauth/request, it gives out 406 Error if no .php extension
     // Request thru Fiddler works fine without the extension
-    var request = new RestRequest(<span class="string">"/v3/oauth/request.php"</span>, Method<span class="preprocessor">.POST</span>)<span class="comment">;</span>
+    var request = new RestRequest(&quot;/v3/oauth/request.php&quot;, Method.POST);
 
-    // Option <span class="number">1</span>: Use the SimpleAuthenticator
-    client<span class="preprocessor">.Authenticator</span> = new SimpleAuthenticator(<span class="string">"consumer_key"</span>, ConsumerKey, <span class="string">"redirect_uri"</span>, <span class="string">"http://www.google.com"</span>)<span class="comment">;</span>
+    // Option 1: Use the SimpleAuthenticator
+    client.Authenticator = new SimpleAuthenticator(&quot;consumer_key&quot;, ConsumerKey, &quot;redirect_uri&quot;, &quot;http://www.google.com&quot;);
 
-    // Option <span class="number">2</span>: Use the application/json
+    // Option 2: Use the application/json
     // This is the most flexible option. Mostly useful to POST data to server
-    request<span class="preprocessor">.AddHeader</span>(<span class="string">"Host"</span>, <span class="string">"getpocket.com"</span>)<span class="comment">;</span>
-    request<span class="preprocessor">.AddHeader</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/json; charset=UTF-8"</span>)<span class="comment">;</span>
-    request<span class="preprocessor">.AddHeader</span>(<span class="string">"X-Accept"</span>, <span class="string">"application/json"</span>)<span class="comment">;</span>
-    request<span class="preprocessor">.RequestFormat</span> = DataFormat<span class="preprocessor">.Json</span><span class="comment">;</span>
-    var jsonObj = new { consumer_key = ConsumerKey, redirect_uri = <span class="string">"http://www.google.com"</span> }<span class="comment">;</span>
-    request<span class="preprocessor">.AddBody</span>(jsonObj)<span class="comment">;</span>
+    request.AddHeader(&quot;Host&quot;, &quot;getpocket.com&quot;);
+    request.AddHeader(&quot;Content-Type&quot;, &quot;application/json; charset=UTF-8&quot;);
+    request.AddHeader(&quot;X-Accept&quot;, &quot;application/json&quot;);
+    request.RequestFormat = DataFormat.Json;
+    var jsonObj = new { consumer_key = ConsumerKey, redirect_uri = &quot;http://www.google.com&quot; };
+    request.AddBody(jsonObj);
 
-    // Option <span class="number">3</span>: Use application/<span class="built_in">x</span>-www-url-encoded
-    request<span class="preprocessor">.AddHeader</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>)<span class="comment">;</span>
-    request<span class="preprocessor">.AddParameter</span>(<span class="string">"consumer_key"</span>, ConsumerKey)<span class="comment">;</span>
-    request<span class="preprocessor">.AddParameter</span>(<span class="string">"redirect_uri"</span>, <span class="string">"http://www.google.com"</span>)<span class="comment">;</span>
+    // Option 3: Use application/x-www-url-encoded
+    request.AddHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+    request.AddParameter(&quot;consumer_key&quot;, ConsumerKey);
+    request.AddParameter(&quot;redirect_uri&quot;, &quot;http://www.google.com&quot;);
 
-    client<span class="preprocessor">.ExecuteAsync</span>(request, response =&gt; Response<span class="preprocessor">.Text</span> = response<span class="preprocessor">.ContentType</span> + <span class="string">" "</span> + response<span class="preprocessor">.Content</span>)<span class="comment">;</span>
-}</code></pre>
-<p>So just pick and choose whatever option you want to use. I would prefer Option 2 and 3. Option 1 is very simplistic but good enough to do the initial authentication process and the rest should be done by Option 2 and 3.</p>
+    client.ExecuteAsync(request, response =&gt; Response.Text = response.ContentType + &quot; &quot; + response.Content);
+}
+</code></pre><p>So just pick and choose whatever option you want to use. I would prefer Option 2 and 3. Option 1 is very simplistic but good enough to do the initial authentication process and the rest should be done by Option 2 and 3.</p>
 
       
     </div>
@@ -159,7 +171,7 @@ private void Login_OnClick(object sender, RoutedEventArgs e)
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

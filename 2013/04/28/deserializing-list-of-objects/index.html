@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -87,69 +99,69 @@
 <a id="more"></a>
 
 <p>First of all it should be straight forward to do this if it returns an array of article. However, this is the Json that was returned. I deprecated some of the code/response to make it brief.</p>
-<pre><code>{ "<span class="attribute">complete</span>" : <span class="value"><span class="number">1</span></span>,
-  "<span class="attribute">list</span>" : <span class="value">{ "<span class="attribute">332222557</span>" : <span class="value">{ "<span class="attribute">excerpt</span>" : <span class="value"><span class="string">"The second quarter of 2013 started with the bang. Key fundamental shifts in monetary policy and underlying changes in various economies caused a significant increase in volatility across the foreign exchange market."</span></span>,
-          "<span class="attribute">given_title</span>" : <span class="value"><span class="string">"MY Favorite 3 FX Trades for Q2 - bkassetmanagement.com/?p=4424 #forex #usd "</span></span>,
-          "<span class="attribute">is_article</span>" : <span class="value"><span class="string">"1"</span></span>,
-          "<span class="attribute">is_index</span>" : <span class="value"><span class="string">"0"</span></span>,
-          "<span class="attribute">item_id</span>" : <span class="value"><span class="string">"332222557"</span></span>,
-          "<span class="attribute">resolved_id</span>" : <span class="value"><span class="string">"332222557"</span></span>,
-          "<span class="attribute">resolved_title</span>" : <span class="value"><span class="string">"Top 3 Forex Trades for Q2"</span></span>,
-          "<span class="attribute">sort_id</span>" : <span class="value"><span class="number">1</span></span>,
-          "<span class="attribute">status</span>" : <span class="value"><span class="string">"0"</span></span>,
-        }</span>,
-      "<span class="attribute">341196654</span>" : <span class="value">{ "<span class="attribute">excerpt</span>" : <span class="value"><span class="string">"With no major U.S. or European economic data on the calendar today, currency pairs such as the EUR/USD and USD/JPY failed to break key levels. For EUR/USD, traders are itching for a reason to take the currency pair below 1."</span></span>,
-          "<span class="attribute">given_title</span>" : <span class="value"><span class="string">"http://www.bkassetmanagement.com/?p=4560"</span></span>,
-          "<span class="attribute">is_article</span>" : <span class="value"><span class="string">"1"</span></span>,
-          "<span class="attribute">is_index</span>" : <span class="value"><span class="string">"0"</span></span>,
-          "<span class="attribute">item_id</span>" : <span class="value"><span class="string">"341196654"</span></span>,
-          "<span class="attribute">resolved_id</span>" : <span class="value"><span class="string">"341196654"</span></span>,
-          "<span class="attribute">resolved_title</span>" : <span class="value"><span class="string">"EUR Break of 1.30 Hinges Upon PMIs"</span></span>,
-          "<span class="attribute">sort_id</span>" : <span class="value"><span class="number">0</span></span>,
-          "<span class="attribute">status</span>" : <span class="value"><span class="string">"0"</span></span>,
+<pre><code>{ &quot;complete&quot; : 1,
+  &quot;list&quot; : { &quot;332222557&quot; : { &quot;excerpt&quot; : &quot;The second quarter of 2013 started with the bang. Key fundamental shifts in monetary policy and underlying changes in various economies caused a significant increase in volatility across the foreign exchange market.&quot;,
+          &quot;given_title&quot; : &quot;MY Favorite 3 FX Trades for Q2 - bkassetmanagement.com/?p=4424 #forex #usd &quot;,
+          &quot;is_article&quot; : &quot;1&quot;,
+          &quot;is_index&quot; : &quot;0&quot;,
+          &quot;item_id&quot; : &quot;332222557&quot;,
+          &quot;resolved_id&quot; : &quot;332222557&quot;,
+          &quot;resolved_title&quot; : &quot;Top 3 Forex Trades for Q2&quot;,
+          &quot;sort_id&quot; : 1,
+          &quot;status&quot; : &quot;0&quot;,
+        },
+      &quot;341196654&quot; : { &quot;excerpt&quot; : &quot;With no major U.S. or European economic data on the calendar today, currency pairs such as the EUR/USD and USD/JPY failed to break key levels. For EUR/USD, traders are itching for a reason to take the currency pair below 1.&quot;,
+          &quot;given_title&quot; : &quot;http://www.bkassetmanagement.com/?p=4560&quot;,
+          &quot;is_article&quot; : &quot;1&quot;,
+          &quot;is_index&quot; : &quot;0&quot;,
+          &quot;item_id&quot; : &quot;341196654&quot;,
+          &quot;resolved_id&quot; : &quot;341196654&quot;,
+          &quot;resolved_title&quot; : &quot;EUR Break of 1.30 Hinges Upon PMIs&quot;,
+          &quot;sort_id&quot; : 0,
+          &quot;status&quot; : &quot;0&quot;,
         }
-    }</span></span>,
-  "<span class="attribute">since</span>" : <span class="value"><span class="number">1367131079</span></span>,
-  "<span class="attribute">status</span>" : <span class="value"><span class="number">1</span>
-}</span></code></pre>
-<p>To solve this, just treat it as Dictionary or Key-Value-Pair relationship. So, with Json.net, the class correspond to this should be something like this.</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pocket</span>
-{</span>
-    [JsonProperty(<span class="string">"status"</span>)]
-    <span class="keyword">public</span> <span class="keyword">int</span> Status { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    },
+  &quot;since&quot; : 1367131079,
+  &quot;status&quot; : 1
+}
+</code></pre><p>To solve this, just treat it as Dictionary or Key-Value-Pair relationship. So, with Json.net, the class correspond to this should be something like this.</p>
+<pre><code>public class Pocket
+{
+    [JsonProperty(&quot;status&quot;)]
+    public int Status { get; set; }
 
-    [JsonProperty(<span class="string">"complete"</span>)]
-    <span class="keyword">public</span> <span class="keyword">int</span> Complete { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [JsonProperty(&quot;complete&quot;)]
+    public int Complete { get; set; }
 
-    [JsonProperty(<span class="string">"since"</span>)]
-    <span class="keyword">public</span> <span class="keyword">int</span> Since { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [JsonProperty(&quot;since&quot;)]
+    public int Since { get; set; }
 
-    [JsonProperty(<span class="string">"list"</span>)]
-    <span class="keyword">public</span> IDictionary&lt;<span class="keyword">string</span>, Article&gt; List { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [JsonProperty(&quot;list&quot;)]
+    public IDictionary&lt;string, Article&gt; List { get; set; }
 }
 
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Article</span>
-{</span>
-    <span class="comment">// Some other properties here</span>
-    <span class="comment">// Deprecated coz its too long</span>
+public class Article
+{
+    // Some other properties here
+    // Deprecated coz its too long
 
-    [JsonProperty(<span class="string">"status"</span>)]
-    <span class="keyword">public</span> <span class="keyword">int</span> Status { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [JsonProperty(&quot;status&quot;)]
+    public int Status { get; set; }
 
-    [JsonProperty(<span class="string">"excerpt"</span>)]
-    <span class="keyword">public</span> <span class="keyword">string</span> Excerpt { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [JsonProperty(&quot;excerpt&quot;)]
+    public string Excerpt { get; set; }
 
-    [JsonProperty(<span class="string">"is_article"</span>)] <span class="keyword">private</span> <span class="keyword">int</span> _isArticle;
+    [JsonProperty(&quot;is_article&quot;)] private int _isArticle;
 
-    <span class="keyword">public</span> <span class="keyword">bool</span> IsArticle
+    public bool IsArticle
     {
-        <span class="keyword">get</span> { <span class="keyword">return</span> _isArticle == <span class="number">1</span> ? <span class="literal">true</span> : <span class="literal">false</span>; }
-        <span class="keyword">set</span> { _isArticle = value ? <span class="number">1</span> : <span class="number">0</span>; }
+        get { return _isArticle == 1 ? true : false; }
+        set { _isArticle = value ? 1 : 0; }
     }
-}</code></pre>
-<p>Then just call it like this</p>
-<pre><code>var converted = JsonConvert.DeserializeObject<span class="tag">&lt;<span class="title">Pocket</span>&gt;</span>(json);</code></pre>
-
+}
+</code></pre><p>Then just call it like this</p>
+<pre><code>var converted = JsonConvert.DeserializeObject&lt;Pocket&gt;(json);
+</code></pre>
       
     </div>
     <footer>
@@ -191,7 +203,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

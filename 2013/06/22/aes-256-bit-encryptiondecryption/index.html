@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -92,18 +104,18 @@
 <li>I don&#39;t like concatenating <code>IV</code> into <code>Key</code> as <code>IV</code> supposed to be unique everytime you encrypt/decrypt. This way, you will have same cipher because the <code>IV</code> is the same and to go around that, you will have to generate new key everytime.</li>
 <li>Since I need to support 32-char key, the code obviously won&#39;t work for me out of the bag.</li>
 </ol>
-<h2>IV relationship with Cipher Text</h2>
+<h2 id="iv-relationship-with-cipher-text">IV relationship with Cipher Text</h2>
 <p>Basically, <code>IV</code> just create randomness in the cipher text. To decrypt you would also need to know the <code>IV</code> (I didn&#39;t actually know about this requirement). Since I have the key already, I would just need to pass the <code>IV</code> portion together with the cipher text. <code>IV</code> does not need to be encrypted, if you encrypt <code>IV</code> then technically it requires other <code>IV</code>, thus inception lol. <code>IV</code> can be public as long as the the private key is private. This is how I implement it.</p>
-<h3>Encryption</h3>
+<h3 id="encryption">Encryption</h3>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>    [<span class="number">16</span> bytes <span class="keyword">of</span> IV] + [x bytes <span class="keyword">of</span> cipher <span class="type">text</span>]
+</pre></td><td class="code"><pre>    [<span class="number">16</span> <span class="keyword">bytes</span> <span class="operator">of</span> IV] + [x <span class="keyword">bytes</span> <span class="operator">of</span> cipher <span class="keyword">text</span>]
 </pre></td></tr></table></figure>
 
 <p>We generate a random <code>IV</code> everytime we encrypt to ensure randomness. The link I gave you just now did not actually do this, it encrypts based on the <code>IV</code> sliced from the <code>Key</code>. I concatenate the <code>IV</code> into the cipher text (encrypted text) and encode into base64 for readability. <code>IV</code> can be public and known to sniffer, as long as the key stays private. </p>
-<h3>Decryption</h3>
+<h3 id="decryption">Decryption</h3>
 <p>To decrypt, I need to retrieve the first 16 bytes to get the <code>IV</code> and set it into the algorithm and the remaining part should be the part for decryption.</p>
 <p>I thought I can just skip the <code>IV</code> and decrypt the remaining part, but turned out that part of the message will turn out to be rubbish.</p>
-<h2>Code</h2>
+<h2 id="code">Code</h2>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -264,7 +276,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

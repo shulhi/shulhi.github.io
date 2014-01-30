@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -89,22 +101,22 @@
 <p>Sometimes you need to know whether the RSS feed has changed, so you can make a request to pull new info. How to know without exactly requesting the XML itself. </p>
 <p>It is very simple actually, just send HTTP request for the headers only and take note of the ETag. Then compare if the previous ETag matched with the new ETag, if it matches, then the resource doesn&#39;t change.</p>
 <p>Here is the code in C#.</p>
-<pre><code><span class="keyword">static</span> <span class="keyword">void</span> Main(string[] args)
+<pre><code>static void Main(string[] args)
 {
-    WebRequest webRequest = HttpWebRequest<span class="variable">.Create</span>(<span class="string">"http://www.forexfactory.com/ffcal_week_this.xml"</span>);
+    WebRequest webRequest = HttpWebRequest.Create(&quot;http://www.forexfactory.com/ffcal_week_this.xml&quot;);
 
-    <span class="comment">// Only request the headers, not the whole content</span>
-    webRequest<span class="variable">.Method</span> = <span class="string">"HEAD"</span>;
-    var response = webRequest<span class="variable">.GetResponse</span>();
+    // Only request the headers, not the whole content
+    webRequest.Method = &quot;HEAD&quot;;
+    var response = webRequest.GetResponse();
 
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; response<span class="variable">.Headers</span><span class="variable">.Count</span>; i++)
+    for (int i = 0; i &lt; response.Headers.Count; i++)
     {
-        Console<span class="variable">.WriteLine</span>(response<span class="variable">.Headers</span><span class="variable">.Keys</span>[i] + <span class="string">" : "</span> + response<span class="variable">.Headers</span>[i]);
+        Console.WriteLine(response.Headers.Keys[i] + &quot; : &quot; + response.Headers[i]);
     }
 
-    Console<span class="variable">.Read</span>();
-}</code></pre>
-
+    Console.Read();
+}
+</code></pre>
       
     </div>
     <footer>
@@ -146,7 +158,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

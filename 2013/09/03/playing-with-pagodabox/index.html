@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -83,11 +95,17 @@
     </header>
     <div class="entry">
       
-        <p>Recently, I get a chance working with Pagodabox while helping a friend with a client project. If you do not know about Pagodabox, you can go to their website to checkout. In short it is a cloud solution to deployment of web application. One of the nice feature of Pagodabox is you can actually connect directly to the Sql Server. Most of traditional hostings involve using some sort of web interface (e.g PhpMyAdmin) to interact with db. If you‘re using Mac OSX, then you should be fine but anything on Windows is a pain. I’m going to show you how this can be done on Windows (sort of!) and backed by Ubuntu VM running in the guest.</p>
+        <p>Recently, I get a chance working with Pagodabox while helping a friend with a client project. If you do not know about Pagodabox, you can go to their website to checkout. In short it is a cloud solution to deployment of web application. One of the nice feature of Pagodabox is you can actually connect directly to the Sql Server. Most of traditional hostings involve using some sort of web interface (e.g PhpMyAdmin) to interact with db. If you&#39;re using Mac OSX, then you should be fine but anything on Windows is a pain. I&#39;m going to show you how this can be done on Windows (sort of!) and backed by Ubuntu VM running in the guest.</p>
 <a id="more"></a>
 
-<p>Assumptions:<br>1. I have Ubuntu 13.04 (guest) running in my Hyper-V as headless VM.<br>2. I have access to the VM through SSH.<br>3. HeidiSQL is installed on my Win 8 (host)<br>4. In Ubuntu, make sure you have properly set your SSH Key with Pagodabox</p>
-<h3>Let&#39;s do this in few simple steps</h3>
+<p>Assumptions:</p>
+<ol>
+<li>I have Ubuntu 13.04 (guest) running in my Hyper-V as headless VM.</li>
+<li>I have access to the VM through SSH.</li>
+<li>HeidiSQL is installed on my Win 8 (host)</li>
+<li>In Ubuntu, make sure you have properly set your SSH Key with Pagodabox</li>
+</ol>
+<h3 id="let-s-do-this-in-few-simple-steps">Let&#39;s do this in few simple steps</h3>
 <ol>
 <li>You will need to configure your VM such that your host can reach your guest and vice versa (i.e. host &lt;-&gt; guest)</li>
 <li>SSH to Ubuntu</li>
@@ -106,7 +124,7 @@
 <ol>
 <li>Click open, and you should be able to access the database.</li>
 </ol>
-<h3>Notes/ Clarifications</h3>
+<h3 id="notes-clarifications">Notes/ Clarifications</h3>
 <ol>
 <li>The most important part is that your guest VM and your host (Windows) must be able to communicate correctly.</li>
 <li>For my settings, Pagodabox (local copy of Wordpress) is set up in my Windows using WAMP server (like LAMP/XAMP). Next time maybe I&#39;ll try to host everything on my Ubuntu box.</li>
@@ -157,7 +175,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

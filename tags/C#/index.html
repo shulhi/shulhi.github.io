@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C# | shulhi.sapli</title>
+  <title>c# | shulhi.sapli</title>
   <meta name="author" content="Shulhi Sapli">
   
   <meta name="description" content="i talk code, market, and random.">
@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,28 +67,40 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper">
-<h2 class="archive-title tag">C#</h2>
+<h2 class="archive-title tag">c#</h2>
 
 
   
     <article class="post">
   
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
   <div class="post-content">
     <header>
       
   
-    <h1 class="title"><a href="/2013/06/22/aes-256-bit-encryptiondecryption/">AES 256-bit encryption/decryption</a></h1>
+    <h1 class="title"><a href="/2013/05/27/understanding-async-versus-callback/">Understanding async against callback</a></h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-06-22T04:52:20.000Z">Jun 22 2013</time>
+          Published: <time datetime="2013-05-27T14:04:44.000Z">May 27 2013</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>This time around, I had a little project with a friend which involved cryptography. So we decided to implement an AES-256 encryption/decryption. That is way above top secret (lol). I googled around looking for information and reading more on cryptography and found this <a href="http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html" target="_blank"><a href="http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html">http://www.chapleau.info/blog/2011/01/06/usingsimplestringkeywithaes256encryptioninc.html</a></a>. There is couple of thing which I don&#39;t like regarding the implementation but it is a good start for now.</p>
+        <p>While learning the new asynchrony feature in C# 5.0, I was experimenting the difference between the previous method of achieving asynchrony using callback against the latest feature provided by C# by utilizing the <code>async</code> and <code>await</code> keyword. So what&#39;s the difference?</p>
 
       
     </div>
@@ -106,23 +118,35 @@
   
     <article class="post">
   
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
   <div class="post-content">
     <header>
       
   
-    <h1 class="title"><a href="/2013/05/04/google-code-jam-practice/">Google Code Jam Practice</a></h1>
+    <h1 class="title"><a href="/2013/04/28/deserializing-list-of-objects/">Deserializing Json list of objects</a></h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-05-03T16:14:09.000Z">May 4 2013</time>
+          Published: <time datetime="2013-04-28T06:42:50.000Z">Apr 28 2013</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>I was playing around with Google Code Jam practice question and was thinking of a smarter way to solve this question. The particular challenge I&#39;m doing is <a href="https://code.google.com/codejam/contest/2334486/dashboard#s=p0" target="_blank">Hedgemony</a> problem. I ended up solving it with two solutions and I did performance benchmark for fun.</p>
-<p>
+        <p>I am currently working to finish up <a href="http://getpocket.com/developer" target="_blank">Pocket Api</a> wrapper for C#/.Net. In turned out that the Api returned list of articles/items in Json and the list is not in array form. It is actually a list of object. We will see how we can deserialize this using <a href="http://james.newtonking.com/projects/json-net.aspx." target="_blank">Json.net</a></p>
+
       
     </div>
     <footer>
@@ -139,22 +163,79 @@
   
     <article class="post">
   
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
   <div class="post-content">
     <header>
       
   
-    <h1 class="title"><a href="/2013/04/27/restsharp-oauth-2.0/">RestSharp Oauth 2.0</a></h1>
+    <h1 class="title"><a href="/2013/04/28/wp8-uri-association-with-caliburn.micro/">WP8 Uri association with Caliburn.Micro</a></h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-04-27T14:30:09.000Z">Apr 27 2013</time>
+          Published: <time datetime="2013-04-28T03:45:20.000Z">Apr 28 2013</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>My Forex News app (WP8) has been released. Yeay for that! Currently working on my next app. In the meantime, I am in the process of creating an API wrapper for Pocket/Read It Later for C#. Initially I implemented all the Oauth 2.0 manually using WebClient class, but figured out that was the easy part. As I need to GET data (Json) thru data, then I would need to implement Json serializer/deserializer. My initial thought is to use Newton Json, but then it would make more sense if I just leverage on RestSharp. Then I do not need to implement the Oauth process (although I have coded mine, going to scrap those) and let it manage the serialization/deserialization.</p>
+        <p>Windows Phone 8 has this new feature of opening an app (in this case my own app) by assigning Uri. It is useful when you are doing Oauth and need to supply the redirection uri. If you are using this new feature, then your app can be automatically opened after oauth is done.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/04/28/etag-in-http-headers/">ETag in HTTP headers</a></h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2013-04-28T03:29:44.000Z">Apr 28 2013</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>One of the thing that I learned while making my app is how to optimize call to the webservice returning XML (RSS feed and the like). There is one cool feature called <a href="http://en.wikipedia.org/wiki/HTTP_ETag" target="_blank">ETag</a>.</p>
 
       
     </div>
@@ -181,7 +262,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

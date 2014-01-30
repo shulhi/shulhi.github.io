@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -90,53 +102,57 @@
 <p>Consider the following code:</p>
 <pre><code>static void Main(string[] args)
 {
-    MakeRequest()<span class="comment">;       </span>
+    MakeRequest();       
 
-    Console<span class="preprocessor">.ReadLine</span>()<span class="comment">;</span>
+    Console.ReadLine();
 }
 
 private static async void MakeRequest()
 {
-    await UseHttpClient()<span class="comment">;</span>
-    UseWebClient()<span class="comment">;</span>
+    await UseHttpClient();
+    UseWebClient();
 }
 
 private static async Task UseHttpClient()
 {
-    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"=== HttpClient =="</span>)<span class="comment">;</span>
-    var client = new HttpClient()<span class="comment">;</span>
-    var request = new HttpRequestMessage(HttpMethod<span class="preprocessor">.Get</span>, new Uri(<span class="string">"http://www.google.com"</span>))<span class="comment">;</span>
-    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"HttpClient requesting..."</span>)<span class="comment">;</span>
-    var response = await client<span class="preprocessor">.SendAsync</span>(request)<span class="comment">;</span>
-    Console<span class="preprocessor">.WriteLine</span>(response<span class="preprocessor">.Content</span><span class="preprocessor">.ReadAsStringAsync</span>()<span class="preprocessor">.Result</span><span class="preprocessor">.Substring</span>(<span class="number">0</span>,<span class="number">100</span>))<span class="comment">;</span>
-    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"HttpClient done"</span>)<span class="comment">;</span>
+    Console.WriteLine(&quot;=== HttpClient ==&quot;);
+    var client = new HttpClient();
+    var request = new HttpRequestMessage(HttpMethod.Get, new Uri(&quot;http://www.google.com&quot;));
+    Console.WriteLine(&quot;HttpClient requesting...&quot;);
+    var response = await client.SendAsync(request);
+    Console.WriteLine(response.Content.ReadAsStringAsync().Result.Substring(0,100));
+    Console.WriteLine(&quot;HttpClient done&quot;);
 }
 
 private static void UseWebClient()
 {
-    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"=== WebClient =="</span>)<span class="comment">;</span>
-    var webClient = new WebClient()<span class="comment">;</span>
-    webClient<span class="preprocessor">.DownloadStringAsync</span>(new Uri(<span class="string">"http://www.google.com"</span>))<span class="comment">;</span>
-    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"WebClient requesting..."</span>)<span class="comment">;</span>
-    webClient<span class="preprocessor">.DownloadStringCompleted</span> += (sender, eventArgs) =&gt; Console<span class="preprocessor">.WriteLine</span>(eventArgs<span class="preprocessor">.Result</span><span class="preprocessor">.Substring</span>(<span class="number">0</span>,<span class="number">100</span>))<span class="comment">;</span>
-    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"WebClient done."</span>)<span class="comment">;</span>
-}</code></pre>
-<p>You might guess that both would output the same result, right? Apparently no.</p>
+    Console.WriteLine(&quot;=== WebClient ==&quot;);
+    var webClient = new WebClient();
+    webClient.DownloadStringAsync(new Uri(&quot;http://www.google.com&quot;));
+    Console.WriteLine(&quot;WebClient requesting...&quot;);
+    webClient.DownloadStringCompleted += (sender, eventArgs) =&gt; Console.WriteLine(eventArgs.Result.Substring(0,100));
+    Console.WriteLine(&quot;WebClient done.&quot;);
+}
+</code></pre><p>You might guess that both would output the same result, right? Apparently no.</p>
 <p>Output:</p>
 <pre><code>=== HttpClient ==
 HttpClient requesting...
-<span class="xml"><span class="doctype">&lt;!doctype html&gt;</span><span class="tag">&lt;<span class="title">html</span> <span class="attribute">itemscope</span>=<span class="value">"itemscope"</span> <span class="attribute">itemtype</span>=<span class="value">"http://schema.org/WebPage"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">head</span>&gt;</span><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">itemprop</span>
-<span class="attribute">HttpClient</span> <span class="attribute">done</span>
+&lt;!doctype html&gt;&lt;html itemscope=&quot;itemscope&quot; itemtype=&quot;http://schema.org/WebPage&quot;&gt;
+&lt;head&gt;&lt;meta itemprop
+HttpClient done
 
-=<span class="value">==</span> <span class="attribute">WebClient</span> =<span class="value">=</span>
-<span class="attribute">WebClient</span> <span class="attribute">requesting...</span>
-<span class="attribute">WebClient</span> <span class="attribute">done.</span>
-&lt;!<span class="attribute">doctype</span> <span class="attribute">html</span>&gt;</span><span class="tag">&lt;<span class="title">html</span> <span class="attribute">itemscope</span>=<span class="value">"itemscope"</span> <span class="attribute">itemtype</span>=<span class="value">"http://schema.org/WebPage"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">head</span>&gt;</span><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">itemprop</span></span></code></pre>
-<p>When you have <code>await</code> keyword, what it does is that it returns back to the caller of the method, thus any code after the <code>await</code> keyword does not actually get executed yet because it <em>await</em> for the result. It is different from the callback method. In term of flow of code, you might agree that the new feature of <code>await</code> makes the code flows better. You no longer have ‘jump’ to certain part of code as the callback is called.</p>
+=== WebClient ==
+WebClient requesting...
+WebClient done.
+&lt;!doctype html&gt;&lt;html itemscope=&quot;itemscope&quot; itemtype=&quot;http://schema.org/WebPage&quot;&gt;
+&lt;head&gt;&lt;meta itemprop
+</code></pre><p>When you have <code>await</code> keyword, what it does is that it returns back to the caller of the method, thus any code after the <code>await</code> keyword does not actually get executed yet because it <em>await</em> for the result. It is different from the callback method. In term of flow of code, you might agree that the new feature of <code>await</code> makes the code flows better. You no longer have &#39;jump&#39; to certain part of code as the callback is called.</p>
 <p>Callback method is still okay to use, in fact there are still .Net libraries aren&#39;t updated yet to support the new feature. For example, the <code>WebClient</code> still utilize the callback method. To make it asynchronous, you would have to do some sort of threading, which is pretty pain in the neck. Another easier way is to create a method utilizing the <code>TaskCompletionSource</code>. If you google around, this has been covered a lot.</p>
-<p>This is a useful source for it:<br>1. <a href="http://stackoverflow.com/questions/10419747/taskcompletionsource-trying-to-understand-threadless-async-work" target="_blank">StackOverflow discussion</a><br>2. <a href="http://blog.stephencleary.com/2012/02/creating-tasks.html" target="_blank">Stephen Cleary&#39;s blog</a></p>
+<p>This is a useful source for it:</p>
+<ol>
+<li><a href="http://stackoverflow.com/questions/10419747/taskcompletionsource-trying-to-understand-threadless-async-work" target="_blank">StackOverflow discussion</a></li>
+<li><a href="http://blog.stephencleary.com/2012/02/creating-tasks.html" target="_blank">Stephen Cleary&#39;s blog</a></li>
+</ol>
 
       
     </div>
@@ -179,7 +195,7 @@ HttpClient requesting...
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>

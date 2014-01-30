@@ -56,7 +56,7 @@
 <div class="clearfix"></div>
 <div class="alignleft" style="margin-top: 15px">
 
-  <a href="https://twitter.com/shulhisapli" class="twitter-follow-button" data-show-count="false">Follow @shulhisapli</a>
+  <a href="https://twitter.com/shulhi" class="twitter-follow-button" data-show-count="false">Follow @shulhi</a>
 
 
   <iframe src="http://ghbtns.com/github-btn.html?user=shulhi&type=follow"
@@ -67,6 +67,18 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
@@ -96,39 +108,39 @@
 <p>In your <code>bootstrapper.cs</code></p>
 <pre><code>protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
 {
-    <span class="regexp">//</span> <span class="reserved">var</span> frame = base.CreatePhoneApplicationFrame(); <span class="keyword">this</span> doesnt work
-    <span class="reserved">var</span> frame = <span class="keyword">new</span> PhoneApplicationFrame(); <span class="regexp">//</span> <span class="keyword">this</span> works
-    frame.UriMapper = <span class="keyword">new</span> AssociationUriMapper();
+    // var frame = base.CreatePhoneApplicationFrame(); this doesnt work
+    var frame = new PhoneApplicationFrame(); // this works
+    frame.UriMapper = new AssociationUriMapper();
 
-    <span class="keyword">return</span> frame;
-}</code></pre>
-<p>And <code>AssociationUriMapper.cs</code> (as per the example in the link above)</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="id">AssociationUriMapper</span> : <span class="id">UriMapperBase</span></span>
+    return frame;
+}
+</code></pre><p>And <code>AssociationUriMapper.cs</code> (as per the example in the link above)</p>
+<pre><code>public class AssociationUriMapper : UriMapperBase
 {
-    <span class="keyword">private</span> string tempUri;
+    private string tempUri;
 
 
-    <span class="keyword">public</span> override Uri MapUri(Uri uri)
+    public override Uri MapUri(Uri uri)
     {
-        tempUri = System<span class="variable">.Net</span><span class="variable">.HttpUtility</span><span class="variable">.UrlDecode</span>(uri<span class="variable">.ToString</span>());
+        tempUri = System.Net.HttpUtility.UrlDecode(uri.ToString());
 
-        <span class="comment">// URI association launch for contoso.</span>
-        <span class="keyword">if</span> (tempUri<span class="variable">.Contains</span>(<span class="string">"pocketthis:MainPage"</span>))
+        // URI association launch for contoso.
+        if (tempUri.Contains(&quot;pocketthis:MainPage&quot;))
         {
-            <span class="comment">// Get the category ID (after "CategoryID=").</span>
-            <span class="comment">//int categoryIdIndex = tempUri.IndexOf("CategoryID=") + 11;</span>
-            <span class="comment">//string categoryId = tempUri.Substring(categoryIdIndex);</span>
+            // Get the category ID (after &quot;CategoryID=&quot;).
+            //int categoryIdIndex = tempUri.IndexOf(&quot;CategoryID=&quot;) + 11;
+            //string categoryId = tempUri.Substring(categoryIdIndex);
 
-            <span class="comment">// Views/MainPage.xaml returns external exception, </span>
-            <span class="comment">// so remember the / before views</span>
-            <span class="keyword">return</span> new Uri(<span class="string">"/Views/MainPage.xaml"</span>, UriKind<span class="variable">.Relative</span>);
+            // Views/MainPage.xaml returns external exception, 
+            // so remember the / before views
+            return new Uri(&quot;/Views/MainPage.xaml&quot;, UriKind.Relative);
         }
 
-        <span class="comment">// Otherwise perform normal launch.</span>
-        <span class="keyword">return</span> uri;
+        // Otherwise perform normal launch.
+        return uri;
     }
-}</code></pre>
-
+}
+</code></pre>
       
     </div>
     <footer>
@@ -170,7 +182,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2013 Shulhi Sapli
+  &copy; 2014 Shulhi Sapli
   
 </div>
 <div class="clearfix"></div></footer>
