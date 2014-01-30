@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Page 2 | Archives | shulhi.sapli</title>
+  <title>Archives: 2014/1 | shulhi.sapli</title>
   <meta name="author" content="Shulhi Sapli">
   
   <meta name="description" content="i talk code, market, and random.">
@@ -67,7 +67,7 @@
 </header>
   <div id="content" class="inner">
     <div id="wrapper">
-<h2 class="archive-title">Archives</h2>
+<h2 class="archive-title">2014/1</h2>
 
 
   
@@ -89,108 +89,18 @@
     <header>
       
   
-    <h1 class="title"><a href="/2013/04/28/etag-in-http-headers/">ETag in HTTP headers</a></h1>
+    <h1 class="title"><a href="/2014/01/31/creating-a-solr-plugin/">Creating a Solr plugin</a></h1>
   
 
       
         <p class="published">
-          Published: <time datetime="2013-04-28T03:29:44.000Z">Apr 28 2013</time>
+          Published: <time datetime="2014-01-30T17:19:06.000Z">Jan 31 2014</time>
         </p>
       
     </header>
     <div class="entry">
       
-        <p>One of the thing that I learned while making my app is how to optimize call to the webservice returning XML (RSS feed and the like). There is one cool feature called <a href="http://en.wikipedia.org/wiki/HTTP_ETag" target="_blank">ETag</a>.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-<!-- hackish -->
-
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-  
-    <h1 class="title"><a href="/2013/04/27/restsharp-oauth-2.0/">RestSharp Oauth 2.0</a></h1>
-  
-
-      
-        <p class="published">
-          Published: <time datetime="2013-04-27T14:30:09.000Z">Apr 27 2013</time>
-        </p>
-      
-    </header>
-    <div class="entry">
-      
-        <p>My Forex News app (WP8) has been released. Yeay for that! Currently working on my next app. In the meantime, I am in the process of creating an API wrapper for Pocket/Read It Later for C#. Initially I implemented all the Oauth 2.0 manually using WebClient class, but figured out that was the easy part. As I need to GET data (Json) thru data, then I would need to implement Json serializer/deserializer. My initial thought is to use Newton Json, but then it would make more sense if I just leverage on RestSharp. Then I do not need to implement the Oauth process (although I have coded mine, going to scrap those) and let it manage the serialization/deserialization.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-<!-- hackish -->
-
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-  
-    <h1 class="title"><a href="/2013/04/27/hello-world/">Hello World</a></h1>
-  
-
-      
-        <p class="published">
-          Published: <time datetime="2013-04-27T11:15:58.000Z">Apr 27 2013</time>
-        </p>
-      
-    </header>
-    <div class="entry">
-      
-        <p>Hey. I moved my blog recently from Wordpress to self-hosted Wordpress. But then I found Wordpress too much for my need. I just need a simple blogging platform. Then I found Jekyll, but I don&#39;t want to run Ruby on my Win box. Then I found <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>!</p>
+        <p>While trying to implement Solr indexer, I came across problem on how to actually normalize the date format according to Solr format. Surprisingly, this question was asked quite often in Stackoverflow. So, I decided to write a Solr plugin with the hope to solve this problem. However, at the end of the day, it turned out that going this approach does not actually solve my problem due to some Solr&#39;s peculiarity. Nonetheless, I hope this writing will help anyone who is trying to develop any Solr plugin as most examples are outdated. I will also explain the reason why it doesn&#39;t work (in my case).</p>
 
       
     </div>
@@ -208,8 +118,6 @@
   
 
   <nav id="pagination">
-  
-    <a href="/archives/" class="alignleft prev">Prev</a>
   
   
   <div class="clearfix"></div>
